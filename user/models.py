@@ -21,7 +21,7 @@ class users_new(models.Model):
                                                                                     'unique': 'An account with this email exist.'})
    # phone= models.RegexValidator(regex = r'^\+?1?\d{9,15}$',message = "Phone number must be enter of 10 digits")
     # acc_created= models.CharField(max_length=20,blank=True,null=True)
-
+#------
     friendslist= models.CharField(max_length=20 ,blank=True ,null=True)
     otp = models.CharField(max_length=4, null=False, blank=False)
     acc_created = models.DateTimeField(auto_now=True)

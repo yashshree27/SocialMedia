@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from user.models import users_new
-
+#----
 class user_Serialization_Class(serializers.ModelSerializer):
     name = serializers.CharField(required=False)
     mobilenumber = serializers.CharField(required=False)

@@ -5,7 +5,7 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import hashlib
 from .passwdserialisation import *
-
+#----
 class Signup_Post(APIView):
     def post(self,request):
         usrData = JSONParser().parse(request)

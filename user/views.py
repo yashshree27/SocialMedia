@@ -120,7 +120,7 @@ class UserD(APIView):
             except users_new.DoesNotExist:
                 print("get user id ",userId)
                 return Response(f'User with employee id {userId} is not found in Database',status=status.HTTP_404_NOT_FOUND)
-
+#---
 #--------------------delete user code--------------------
     def delete(self, request, userId):
             print("inside delete1")

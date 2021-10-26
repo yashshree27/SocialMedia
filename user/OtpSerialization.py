@@ -8,3 +8,5 @@ class OtpserializerClass(serializers.ModelSerializer):
     class Meta:
         model= users_new
         fields= list(["otp"])
+
+        #------
