@@ -15,7 +15,7 @@ class users_new(models.Model):
     mobilenumber= models.CharField(max_length=10 ,unique=True, error_messages={"unique" :"This mobile number is already "
                                                                                        "registered. Please login or enter different mobile number "})
                  # RegexField(regex=r'^\+?1?\d{9,15}$', error_message = ("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")                                                                     "use different number."})
-    password= models.CharField(max_length=20)
+    password= models.CharField(max_length=50)
     emailid= models.EmailField(max_length=50 ,blank=False, unique=True
                                 ,error_messages={'required': 'Please provide your email address.',
                                                                                     'unique': 'An account with this email exist.'})

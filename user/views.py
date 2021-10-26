@@ -14,7 +14,10 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-
+import hashlib
+import hashlib
+from django.http import QueryDict
+from .passwdserialisation import *
 import json
 from socialmedia import *
 from .loginSerialization import *
@@ -42,6 +45,37 @@ class UserD(RetrieveAPIView):
 
 '''
 
+'''
+class try1(APIView):
+    def post(self,request):
+        usrData = JSONParser().parse(request)
+        print("user  pass data type ", type(usrData))
+        print("user data: ", usrData)
+        serializer = PasswdserializerClass(data=usrData)
+        password = usrData['password']
+        hash_password = hashlib.md5(password.encode()).hexdigest()
+
+        print(hash_password)
+        usrData['password'] = hash_password
+        print("hassh passs rpint ", usrData)
+
+        print("type of usr data after hash: ", type(usrData))
+        print("req data hashed: ", usrData)
+
+        if serializer.is_valid():
+            print("inside valid s hash")
+            serializer.save()
+            print("type ", type(serializer.data))
+            return Response("Signup SuccessFull", status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
+
+
+
+
+
+
+
 
 #-------------login code-------------------------------
 
@@ -50,6 +84,8 @@ class UserD(APIView):
     def post(self,request):
             print("received value",self.request.data)
             getQueryString = self.request.data
+            getQueryString['password'] = hashlib.md5(getQueryString['password'].encode()).hexdigest()
+            print(getQueryString)
             print("get query string: ",getQueryString)
             print("type pf get query: ",type(getQueryString))
             #print("** query: ", type(**getQueryString))
@@ -259,23 +295,18 @@ class OTP2(APIView):
 @csrf_exempt
 def User(request,id=0):
     if request.method=='GET':
-        userGet= users_new.objects.all()
-        user_serializer= user_Serialization_Class(userGet,many=True)
+        userGet = users_new.objects.all()
+        user_serializer = user_Serialization_Class(userGet,many=True)
         return JsonResponse(user_serializer.data,safe=False)
 
-    elif request.method=='POST':
-        user_post_data= JSONParser().parse(request)
-        user_serializer= user_Serialization_Class(data=user_post_data)
 
-        if user_serializer.is_valid():
-            user_serializer.save()
-            return JsonResponse("SignUp successfull!!!",safe= False)
 
-        return JsonResponse("SignUp failed!!!",safe=False)
+
 
     elif request.method=='PUT':
         user_put_data= JSONParser().parse(request)
         print("user_pput: ",user_put_data)
+
         userPut= users_new.objects.get(userId=user_put_data['userId'])
         print("user put id data: ",userPut)
         print("type user put ",type(userPut))
@@ -292,13 +323,6 @@ def User(request,id=0):
         #user_delete= users_new.objects.get(userId=id)
        # users_new.delete()
        # return JsonResponse("deleted!!")
-
-
-
-
-
-
-
 #-----------------------signup end------------------------
 
 
